@@ -3,7 +3,7 @@ import { buildUpdateQuery, toPostgresParams } from '../utils/postgres.js';
 
 export const getAllBranches = async (req, res) => {
   try {
-    const result = await db.query('SELECT b.*, u.name as manager_name FROM branches b LEFT JOIN users u ON b.manager_id = u.id ORDER BY b.name');
+    const result = await db.query('SELECT * FROM branches WHERE status = $1 ORDER BY name', ['active']);
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -12,7 +12,7 @@ export const getAllBranches = async (req, res) => {
 
 export const getBranchById = async (req, res) => {
   try {
-    const result = await db.query('SELECT b.*, u.name as manager_name FROM branches b LEFT JOIN users u ON b.manager_id = u.id WHERE b.id = $1', [req.params.id]);
+    const result = await db.query('SELECT * FROM branches WHERE id = $1', [req.params.id]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Branch not found' });
     }
