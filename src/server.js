@@ -10,6 +10,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import leadRoutes from './routes/leads.js';
 import commissionRoutes from './routes/commissions.js';
 import reportRoutes from './routes/reports.js';
+import branchRoutes from './routes/branches.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
@@ -33,6 +34,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/commissions', commissionRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/branches', branchRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
