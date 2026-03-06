@@ -36,6 +36,27 @@ app.use('/api/commissions', commissionRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/branches', branchRoutes);
 
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Car Credit Hub API', 
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      loans: '/api/loans',
+      banks: '/api/banks',
+      brokers: '/api/brokers',
+      users: '/api/users',
+      dashboard: '/api/dashboard',
+      leads: '/api/leads',
+      commissions: '/api/commissions',
+      reports: '/api/reports',
+      branches: '/api/branches'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
