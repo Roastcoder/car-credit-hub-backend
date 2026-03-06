@@ -41,19 +41,7 @@ app.get('/', (req, res) => {
     message: 'Car Credit Hub API', 
     version: '1.0.0',
     status: 'running',
-    endpoints: {
-      health: '/api/health',
-      auth: '/api/auth',
-      loans: '/api/loans',
-      banks: '/api/banks',
-      brokers: '/api/brokers',
-      users: '/api/users',
-      dashboard: '/api/dashboard',
-      leads: '/api/leads',
-      commissions: '/api/commissions',
-      reports: '/api/reports',
-      branches: '/api/branches'
-    }
+    author: 'Built by RoastCoder'
   });
 });
 
