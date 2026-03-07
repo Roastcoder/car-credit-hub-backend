@@ -12,6 +12,7 @@ import commissionRoutes from './routes/commissions.js';
 import reportRoutes from './routes/reports.js';
 import branchRoutes from './routes/branches.js';
 import notificationRoutes from './routes/notifications.js';
+import permissionRoutes from './routes/permissions.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 
@@ -37,6 +38,7 @@ app.use('/api/commissions', commissionRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/branches', branchRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/field-permissions', permissionRoutes);
 
 app.get('/', (req, res) => {
   res.json({ 
