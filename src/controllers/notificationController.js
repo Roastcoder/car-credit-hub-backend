@@ -18,7 +18,42 @@ export const markAsRead = async (req, res) => {
       'UPDATE notifications SET is_read = true WHERE id = $1 AND user_id = $2',
       [req.params.id, req.user.id]
     );
+    // Auto-delete after 1 minute
+    setTimeout(async () => {
+      await db.query('DELETE FROM notifications WHERE id = $1 AND user_id = $2', [req.params.id, req.user.id]);
+    }, 60000);
     res.json({ message: 'Marked as read' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const markAllAsRead = async (req, res) => {
+  try {
+    const result = await db.query(
+      'UPDATE notifications SET is_read = true WHERE user_id = $1 AND is_read = false RETURNING id',
+      [req.user.id]
+    );
+    // Auto-delete all after 1 minute
+    setTimeout(async () => {
+      const ids = result.rows.map(r => r.id);
+      if (ids.length > 0) {
+        await db.query('DELETE FROM notifications WHERE id = ANY($1)', [ids]);
+      }
+    }, 60000);
+    res.json({ message: 'All marked as read' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteNotification = async (req, res) => {
+  try {
+    await db.query(
+      'DELETE FROM notifications WHERE id = $1 AND user_id = $2',
+      [req.params.id, req.user.id]
+    );
+    res.json({ message: 'Notification deleted' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
