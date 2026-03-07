@@ -81,7 +81,7 @@ export const createLoan = async (req, res) => {
       `INSERT INTO loans (${keys.join(', ')}) VALUES (${placeholders}) RETURNING id`,
       values
     );
-    res.status(201).json({ message: 'Loan created successfully', loanId: result.rows[0].id });
+    res.status(201).json({ message: 'Loan created successfully', id: result.rows[0].id });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
