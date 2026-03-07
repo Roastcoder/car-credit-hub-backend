@@ -1,5 +1,29 @@
 import db from '../config/database.js';
 
+export const getUserNotifications = async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT * FROM notifications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 50',
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const markAsRead = async (req, res) => {
+  try {
+    await db.query(
+      'UPDATE notifications SET is_read = true WHERE id = $1 AND user_id = $2',
+      [req.params.id, req.user.id]
+    );
+    res.json({ message: 'Marked as read' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const broadcastNotification = async (req, res) => {
   try {
     const { title, body, url } = req.body;
